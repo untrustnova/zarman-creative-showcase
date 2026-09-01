@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import type { Material } from "three";
 
 export function HeroScene() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -115,11 +116,11 @@ export function HeroScene() {
         window.removeEventListener("resize", resize);
         window.cancelAnimationFrame(frame);
         knot.geometry.dispose();
-        (knot.material as THREE.Material).dispose();
+        (knot.material as Material).dispose();
         wire.geometry.dispose();
-        (wire.material as THREE.Material).dispose();
+        (wire.material as Material).dispose();
         particleGeometry.dispose();
-        (particles.material as THREE.Material).dispose();
+        (particles.material as Material).dispose();
         renderer.dispose();
         renderer.domElement.remove();
       };
