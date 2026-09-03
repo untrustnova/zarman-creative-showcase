@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/lib/i18n";
 
 interface VideoFacadeProps {
   id: string;
@@ -12,17 +13,24 @@ interface VideoFacadeProps {
 
 export function VideoFacade({ id, index, title, category, accent = false }: VideoFacadeProps) {
   const [playing, setPlaying] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <article className="group border-t border-border pt-4">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <p className="mb-2 text-xs uppercase text-muted-foreground">{index} / {category}</p>
+          <p className="mb-2 text-xs uppercase text-muted-foreground">
+            {index} / {category}
+          </p>
           <h3 className="font-display text-2xl font-semibold uppercase md:text-4xl">{title}</h3>
         </div>
-        <span className="hidden text-xs uppercase text-muted-foreground md:block">Play project</span>
+        <span className="hidden text-xs uppercase text-muted-foreground md:block">
+          {t.work.playProject}
+        </span>
       </div>
-      <div className={`relative aspect-video overflow-hidden border border-border ${accent ? "bg-primary" : "bg-surface"}`}>
+      <div
+        className={`relative aspect-video overflow-hidden border border-border ${accent ? "bg-primary" : "bg-surface"}`}
+      >
         {playing ? (
           <iframe
             className="size-full"
@@ -32,22 +40,40 @@ export function VideoFacade({ id, index, title, category, accent = false }: Vide
             allowFullScreen
           />
         ) : (
-          <div className="absolute inset-0 grid place-items-center overflow-hidden">
-            <div className="video-grid absolute inset-0 opacity-70" />
-            <p className="select-none font-display text-[15vw] font-bold uppercase leading-none text-foreground/5 md:text-[9vw]">
-              {category.split(" ")[0]}
-            </p>
-            <Button
-              variant="icon"
-              className="absolute size-16 rounded-full bg-foreground text-background transition-transform duration-500 group-hover:scale-110 md:size-20"
-              aria-label={`Putar ${title}`}
-              onClick={() => setPlaying(true)}
-            >
-              <Play className="size-6 fill-current md:size-7" />
-            </Button>
-            <div className="absolute bottom-5 left-5 right-5 flex justify-between text-xs uppercase text-foreground/70">
-              <span>Youtube preview</span>
-              <span>00:45</span>
+          <div
+            className="relative size-full cursor-pointer overflow-hidden"
+            onClick={() => setPlaying(true)}
+          >
+            <img
+              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+              alt={title}
+              loading="lazy"
+              className="size-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-95"
+            />
+            <div className="absolute inset-0 bg-black/35 transition-colors group-hover:bg-black/20" />
+            <div className="video-grid pointer-events-none absolute inset-0 opacity-40" />
+
+            <div className="absolute inset-0 grid place-items-center">
+              <Button
+                variant="icon"
+                className="size-16 rounded-full bg-foreground text-background shadow-xl transition-transform duration-500 group-hover:scale-110 md:size-20"
+                aria-label={`${t.work.playProject} ${title}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPlaying(true);
+                }}
+              >
+                <Play className="size-6 fill-current md:size-7" />
+              </Button>
+            </div>
+
+            <div className="absolute bottom-4 left-4 right-4 flex justify-between text-xs uppercase tracking-wider text-white/90">
+              <span className="border border-white/20 bg-black/60 px-2 py-0.5 backdrop-blur-xs">
+                {t.work.youtubePreview}
+              </span>
+              <span className="border border-white/20 bg-black/60 px-2 py-0.5 backdrop-blur-xs">
+                {t.work.watch}
+              </span>
             </div>
           </div>
         )}

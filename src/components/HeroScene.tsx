@@ -16,11 +16,21 @@ export function HeroScene() {
       if (disposed || !mountRef.current) return;
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(42, mount.clientWidth / mount.clientHeight, 0.1, 100);
+      const camera = new THREE.PerspectiveCamera(
+        42,
+        mount.clientWidth / mount.clientHeight,
+        0.1,
+        100,
+      );
       camera.position.set(0, 0, 6.4);
 
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: window.devicePixelRatio < 2 });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.25 : 1.75));
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: window.devicePixelRatio < 2,
+      });
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.25 : 1.75),
+      );
       renderer.setSize(mount.clientWidth, mount.clientHeight);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -45,7 +55,12 @@ export function HeroScene() {
 
       const wire = new THREE.Mesh(
         new THREE.IcosahedronGeometry(2.4, 2),
-        new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.075 }),
+        new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.075,
+        }),
       );
       group.add(wire);
 
@@ -95,12 +110,13 @@ export function HeroScene() {
       window.addEventListener("pointermove", onPointerMove, { passive: true });
       window.addEventListener("resize", resize);
 
-      const clock = new THREE.Clock();
+      const timer = new THREE.Timer();
       const render = () => {
         if (disposed) return;
         frame = window.requestAnimationFrame(render);
         if (!visible) return;
-        const elapsed = clock.getElapsedTime();
+        timer.update();
+        const elapsed = timer.getElapsed();
         group.rotation.y += (pointer.x - group.rotation.y) * 0.025;
         group.rotation.x += (-pointer.y - group.rotation.x) * 0.025;
         knot.rotation.z = elapsed * 0.08;
@@ -115,6 +131,7 @@ export function HeroScene() {
         window.removeEventListener("pointermove", onPointerMove);
         window.removeEventListener("resize", resize);
         window.cancelAnimationFrame(frame);
+        timer.dispose();
         knot.geometry.dispose();
         (knot.material as Material).dispose();
         wire.geometry.dispose();

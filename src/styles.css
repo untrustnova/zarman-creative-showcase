@@ -57,31 +57,74 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--color-background); color: var(--color-foreground); font-family: var(--font-sans); letter-spacing: 0; }
-  ::selection { background: var(--color-primary); color: var(--color-primary-foreground); }
-  a { outline-offset: 4px; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+  a {
+    outline-offset: 4px;
+  }
 }
 
 @utility bg-hero-overlay {
-  background: linear-gradient(to top, var(--background) 0%, transparent 50%), linear-gradient(to right, color-mix(in oklab, var(--background) 66%, transparent), transparent 65%);
+  background:
+    linear-gradient(to top, var(--background) 0%, transparent 50%),
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--background) 66%, transparent),
+      transparent 65%
+    );
 }
 
 .hero-fallback {
-  background: radial-gradient(circle at 70% 45%, color-mix(in oklab, var(--primary) 28%, transparent), transparent 28%), var(--background);
+  background:
+    radial-gradient(
+      circle at 70% 45%,
+      color-mix(in oklab, var(--primary) 28%, transparent),
+      transparent 28%
+    ),
+    var(--background);
 }
 
 .video-grid {
-  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
   background-size: 42px 42px;
 }
 
 .contact-lines {
-  background-image: repeating-linear-gradient(115deg, transparent 0, transparent 80px, var(--primary-foreground) 81px, transparent 82px);
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0,
+    transparent 80px,
+    var(--primary-foreground) 81px,
+    transparent 82px
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
